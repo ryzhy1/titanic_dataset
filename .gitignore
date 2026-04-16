@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.idea
+.ipynb_checkpoints/
+.venv/
+venv/
+artifacts/
+data/processed/
+data/interim/
+models/

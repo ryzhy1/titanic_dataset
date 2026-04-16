@@ -1,0 +1,141 @@
+seed: 42
+
+paths:
+  train_path: data/raw/train.csv
+  test_path: data/raw/test.csv
+  artifacts_dir: artifacts
+  submissions_dir: artifacts/submissions
+  models_dir: artifacts/models
+  metrics_dir: artifacts/metrics
+  figures_dir: artifacts/figures
+
+task:
+  target: Survived
+  target_lower: survived
+  id_column: PassengerId
+
+cv:
+  n_splits: 7
+  shuffle: true
+  random_state: 42
+
+preprocessing:
+  use_kmeans_cluster: true
+  n_clusters: 10
+  drop_columns_after_features:
+    - sibsp
+    - parch
+    - family_size
+    - fare_group
+    - is_mother_with_children
+    - is_mother
+    - age_group
+
+training:
+  selected_models:
+    - logreg
+    - random_forest
+    - gradient_boosting
+    - lightgbm
+    - catboost
+    - xgboost
+    - soft_voting
+    - weighted_soft_voting
+    - stacking
+    - bagging
+    - dnn
+  scoring: accuracy
+  save_all_models: true
+
+model_params:
+  logreg:
+    C: 1.0
+    max_iter: 2000
+    solver: saga
+
+  random_forest:
+    n_estimators: 500
+    max_depth: 6
+    min_samples_split: 6
+    min_samples_leaf: 2
+    random_state: 42
+    n_jobs: -1
+
+  gradient_boosting:
+    n_estimators: 300
+    learning_rate: 0.03
+    max_depth: 3
+    min_samples_leaf: 2
+    subsample: 0.9
+    random_state: 42
+
+  adaboost:
+    n_estimators: 300
+    learning_rate: 0.03
+    random_state: 42
+
+  lightgbm:
+    n_estimators: 500
+    learning_rate: 0.03
+    max_depth: 3
+    num_leaves: 15
+    min_child_samples: 15
+    subsample: 0.9
+    colsample_bytree: 0.9
+    random_state: 42
+    verbosity: -1
+
+  catboost:
+    iterations: 500
+    learning_rate: 0.03
+    depth: 4
+    loss_function: Logloss
+    verbose: false
+    random_seed: 42
+
+  xgboost:
+    n_estimators: 500
+    learning_rate: 0.03
+    max_depth: 3
+    min_child_weight: 2
+    subsample: 0.9
+    colsample_bytree: 0.9
+    reg_alpha: 0.0
+    reg_lambda: 1.0
+    eval_metric: logloss
+    random_state: 42
+    verbosity: 0
+
+  knn:
+    n_neighbors: 15
+    weights: distance
+    p: 2
+
+  svc:
+    C: 1.5
+    gamma: scale
+    probability: true
+
+  decision_tree:
+    max_depth: 5
+    min_samples_split: 8
+    min_samples_leaf: 3
+    random_state: 42
+
+  weighted_voting:
+    weights: [4, 1, 1, 2, 5, 2]
+
+  bagging:
+    n_estimators: 500
+    max_samples: 0.6
+    max_features: 6
+    random_state: 42
+    n_jobs: -1
+
+  dnn:
+    batch_size: 64
+    learning_rate: 0.001
+    epochs: 40
+    dropout: 0.3
+    hidden_dims: [32, 64]
+    weight_decay: 0.0001
