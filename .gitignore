@@ -4,7 +4,7 @@ __pycache__/
 .ipynb_checkpoints/
 .venv/
 venv/
-artifacts/
+# artifacts/
 data/processed/
 data/interim/
 models/
